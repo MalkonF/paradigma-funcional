@@ -1,7 +1,29 @@
 package br.com.alura.bytebank
 
 fun main() {
-//a var minhaFuncao é do tipo função. Os parenteses significam
+    testaTipoFuncaoReferencia()
+    testaTipoFuncaoClasse()
+
+    val minhaFuncaoLambda: () -> Unit = {
+        println("Executa como lambda")
+
+    }
+    println(minhaFuncaoLambda())
+
+    val minhaFuncaoAnonima: () -> Unit = fun() {
+        println("Executa como função anônima")
+    }
+
+    println(minhaFuncaoAnonima())
+}
+
+fun testaTipoFuncaoClasse() {
+    val minhaFuncaoClasse: () -> Unit = Teste()
+    println(minhaFuncaoClasse())
+}
+
+fun testaTipoFuncaoReferencia() {
+    //a var minhaFuncao é do tipo função. Os parenteses significam
     //os parametros que a gente recebe(se tiver vazio é sem parametros)
     //Unit é o tipo de retorno da função
     //::teste atribui a referencia da função teste para a var. Agora a variavel
@@ -9,9 +31,6 @@ fun main() {
     val minhaFuncao: () -> Unit = ::teste
     val minhaFuncao2 = ::teste //omitindo o tipo função mas subentende que é do tipo função
     println(minhaFuncao())
-
-    val minhaFuncaoClasse: () -> Unit = Teste()
-    println(minhaFuncaoClasse())
 }
 
 //a função tem que ser do mesmo tipo que a var, ex: na var minhaFuncao ela não recebe nenhum arg como aqui na função teste
