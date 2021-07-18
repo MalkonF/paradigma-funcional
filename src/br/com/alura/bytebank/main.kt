@@ -1,64 +1,38 @@
 package br.com.alura.bytebank
 
+import br.com.alura.bytebank.modelo.Endereco
+
 fun main() {
-    testaTipoFuncaoReferencia()
-    testaTipoFuncaoClasse()
-    //_ diz que não vai utilizar esse valor mas tem que por para dar match na assinatura da lambda(int, int)
-    val minhaFuncaoLambda: (Int, Int) -> Int = { a, _ ->
-        a + 10 //a última insturção é que determina o retorno
+    // tipo função sendo atribuído a variável testeFuncao
+    val testeFuncao: () -> Unit
+    // evolve o objeto Endereco para dentro de um escopo em que se pode manipular seus atributos
+    Endereco().let {
 
     }
-    println(minhaFuncaoLambda(10, 15))
+    // n faz o let com expressão lambda
+    //aqui chama o let como se fosse uma função e manda uma referencia de outra função testeRecebeString
+    //O parametro dessa função testerecebeString tem que ser string já que o let ta sendo chamado por ""
+    "".let(::testeRecebeString)
 
-    //a diferença entre expressão lambda e função anonima é que na última deixa mais explicita o retorno que quer
-    //fazer
-    val minhaFuncaoAnonima: (Int, Int) -> Int = fun(a: Int, b: Int): Int {
-        return a + b
-    }
-    println(minhaFuncaoAnonima(10, 30))
-    //it está disponível em funções lambda com um só arg
-    //aqui poderia ser só Double, mas coloca salario pra deixar o codigo mais claro
-    val calculaBonificacao: (salario: Double) -> Double =
-        lambda@{//pra poder ter mais de um return tem que ter esse label
-            if (it > 1000.0)
-                return@lambda it + 50.0
-            it + 100.0
-        }
-    println(calculaBonificacao(10000.0))
-
-    val calculadoraBonificacaoAnonima: (salario: Double) -> Double = fun(salario): Double {
-        if (salario > 1000.0)
-            return salario + 50.0
-        return salario + 100.0
+    1.let {
+        it
     }
 
+    teste({}, 1)
+    //quando se tem uma função que recebe outra n somos obrigados a colocar os parenteses. Experimente colocar na função teste
+    //so um parametro, pode ser uma função, aí vc pode chaamr so com os {}, mas se colocar mais de um parametro terá que colocar ()
+    teste(
+        {}, 1
+    )
 
-    fun testaTipoFuncaoClasse() {
-        val minhaFuncaoClasse: (Int, Int) -> Int =
-            Soma()//aqui n pede os argumentos, só é obrigatório na hora de chamar a função
-        println(minhaFuncaoClasse(10, 10))
-    }
+}
 
-    fun testaTipoFuncaoReferencia() {
-        //a var minhaFuncao é do tipo função. Os parenteses significam
-        //os parametros que a gente recebe(se tiver vazio é sem parametros)
-        //Unit é o tipo de retorno da função
-        //::teste atribui a referencia da função teste para a var. Agora a variavel
-        //pode ser executada como se fosse uma função
-        val minhaFuncao: (Int, Int) -> Int = ::soma
-        val minhaFuncao2 = ::soma //omitindo o tipo função mas subentende que é do tipo função
-        println(minhaFuncao(5, 10))
-    }
+fun testeRecebeString(valor: String) {
 
-    //a função tem que ser do mesmo tipo que a var, ex: na var minhaFuncao ela não recebe nenhum arg como aqui na função teste
-    fun soma(a: Int, b: Int): Int {
-        return a + b
-    }
+}
 
-    //tem que sobrescever o tipo invoke quando vc atribui a uma classe o tipo função
-    class Soma : (Int, Int) -> Int {
-        override fun invoke(a: Int, b: Int): Int = a + b
+//high order function quando uma função recebe outra
+// uma função teste recebendo outro função bloco
+fun teste(bloco: () -> Unit, teste: Int) {
 
-    }
-
-
+}
