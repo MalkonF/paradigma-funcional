@@ -3,36 +3,31 @@ package br.com.alura.bytebank
 import br.com.alura.bytebank.modelo.Endereco
 
 fun main() {
-    // tipo função sendo atribuído a variável testeFuncao
-    val testeFuncao: () -> Unit
+    val endereco = Endereco(logradouro = "rua vergueiro", numero = 3185)
+    // string template
+    val enderecoEmMaiusculo = "${endereco.logradouro}, ${endereco.numero}".toUpperCase()
+    println(enderecoEmMaiusculo)
+
     // evolve o objeto Endereco para dentro de um escopo em que se pode manipular seus atributos
-    Endereco().let {
-
+    // Usando hof vc n precisa criar a variável endereco
+    val enderecoEmMaiusculoComHOF = Endereco().let { endereco ->
+        "${endereco.logradouro}, ${endereco.numero}".toUpperCase()
+        //aqui com let vc nao precisa criar a var enderecoEmMaiusculoComHOF, somente precisa criar a enderecoEmMaiusculoHOF2
+        // }.let { enderecoEmMaiusculoHOF2 ->
     }
-    // n faz o let com expressão lambda
-    //aqui chama o let como se fosse uma função e manda uma referencia de outra função testeRecebeString
-    //O parametro dessa função testerecebeString tem que ser string já que o let ta sendo chamado por ""
-    "".let(::testeRecebeString)
+        println("x"+enderecoEmMaiusculoComHOF)
+   //     println(enderecoEmMaiusculoHOF2)
+    //}
+        //.let(::println)// ou ainda vc pode usar a referencia para o println, ai n precisaria fazer o let acima com enderecoEmMaiusculoHOF2
 
-    1.let {
-        it
-    }
 
-    teste({}, 1)
-    //quando se tem uma função que recebe outra n somos obrigados a colocar os parenteses. Experimente colocar na função teste
-    //so um parametro, pode ser uma função, aí vc pode chaamr so com os {}, mas se colocar mais de um parametro terá que colocar ()
-    teste(
-        {}, 1
+    // chamada encadeada com HOF
+    listOf(
+        Endereco(complemento = "casa"),
+        Endereco(),
+        Endereco(complemento = "apartamento")
     )
-
-}
-
-fun testeRecebeString(valor: String) {
-
-}
-
-//high order function quando uma função recebe outra
-// uma função teste recebendo outro função bloco
-fun teste(bloco: () -> Unit, teste: Int) {
+        .filter { endereco -> endereco.complemento.isNotEmpty() }
+        .let(::println)
 
 }
