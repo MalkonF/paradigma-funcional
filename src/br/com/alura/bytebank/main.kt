@@ -4,26 +4,25 @@ import br.com.alura.bytebank.modelo.Endereco
 
 fun main() {
 
-    /*Scope functions vc executa um bloco de código dentro de um contexto de um objeto. Scope functions n introduz uma nova técnica mas
-    faz seu código ser mais legível e conciso.
-    Cada um vai ter suas especificidades ao usar: let, apply, run, with, also
-    It é um objeto de contdxto onde ele vai ser acessível a partir de uma expressão lambda.
-    Com o .run ele já vai ser o objeto em si, tanto é que se vc referenciar um atributo dele vc n precisa colocar o nome da classe ou o this, somente
-    o atributo. Com o let, por exemplo, vc tem que colocar o it.length
-    Para saber mais: https://kotlinlang.org/docs/scope-functions.html#function-selection*/
+    val endereco = Endereco(logradouro = "rua vergueirooo", numero = 3185)
+    // como with vc um obj de contexto que é receiver(endereco) e retorna uma lambda
+    with(endereco) {
+        "${endereco.logradouro}, ${endereco.numero}".toUpperCase()
+    }.let { enderecoEmMaiusculo: String ->
+        println(enderecoEmMaiusculo)
+    }
 
-    /*Cada função de escopo(run, apply etc) tem retornos diferentes:
-    * apply e also - devolve o obj de contexto
-    * let, run, with - retorna um lambda*/
-    Endereco(logradouro = "rua vergueirooo", numero = 3185)
-        .run {
-            "${logradouro}, ${numero}".toUpperCase()  // aqui n preciso usar o endereco.logradouro
-        }.let { enderecoEmMaiusculo: String ->
-            println(enderecoEmMaiusculo) //agora foi transformado em maiusculo que o uso do run
+    val endereco2 = Endereco()
+        .also { println("Configurando qualquer coisa antes da execução do apply...") }
+        .apply {
+            logradouro = "Rua Vergueiro"
+            numero = 3186
         }
-    //não for transformado em maisuculo pq no final o apply devolve o objeto de contexto e não a string. Se fosse usado um operador que retorna
-    // expressão lambda ia retornar a string
-
+    with(endereco2) {
+        "${endereco2.logradouro}, ${endereco2.numero}".toUpperCase()
+    }.let { enderecoEmMaiusculo: String ->
+        println(enderecoEmMaiusculo)
+    }
 
     //val endereco = Endereco(logradouro = "rua vergueiro", numero = 3185)
     // string template
