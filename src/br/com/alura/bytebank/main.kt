@@ -9,11 +9,20 @@ fun main() {
     Cada um vai ter suas especificidades ao usar: let, apply, run, with, also
     It é um objeto de contdxto onde ele vai ser acessível a partir de uma expressão lambda.
     Com o .run ele já vai ser o objeto em si, tanto é que se vc referenciar um atributo dele vc n precisa colocar o nome da classe ou o this, somente
-    o atributo. Com o let, por exemplo, vc tem que colocar o it.length*/
+    o atributo. Com o let, por exemplo, vc tem que colocar o it.length
+    Para saber mais: https://kotlinlang.org/docs/scope-functions.html#function-selection*/
 
+    /*Cada função de escopo(run, apply etc) tem retornos diferentes:
+    * apply e also - devolve o obj de contexto
+    * let, run, with - retorna um lambda*/
     Endereco(logradouro = "rua vergueirooo", numero = 3185)
-        .apply { "${logradouro}, ${numero}".toUpperCase()  // aqui n preciso usar o endereco.logradouro
-        }.let(::println)// no resultado o endereço não é transformado em maiúsculo???
+        .run {
+            "${logradouro}, ${numero}".toUpperCase()  // aqui n preciso usar o endereco.logradouro
+        }.let { enderecoEmMaiusculo: String ->
+            println(enderecoEmMaiusculo) //agora foi transformado em maiusculo que o uso do run
+        }
+    //não for transformado em maisuculo pq no final o apply devolve o objeto de contexto e não a string. Se fosse usado um operador que retorna
+    // expressão lambda ia retornar a string
 
 
     //val endereco = Endereco(logradouro = "rua vergueiro", numero = 3185)
